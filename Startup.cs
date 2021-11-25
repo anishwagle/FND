@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FND.DAO;
+using FND.DAO.Impl;
+using FND.Helpers;
+using FND.Middlewares;
+using FND.Services;
+using FND.Services.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +38,13 @@ namespace FND
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FND", Version = "v1" });
             });
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddTransient<IJwtUtils, JwtUtils>()
+            .AddTransient<IUserService, UserService>()
+            .AddTransient<IUserDao, UserDao>()
+            ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,8 +60,11 @@ namespace FND
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseCors(x => x
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
