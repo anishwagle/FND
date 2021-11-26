@@ -27,7 +27,7 @@ namespace FND.Services.Impl
 
         public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model)
         {
-            var user = await _context.GetByUsernameAsync(model.Username);
+            var user = await _context.GetByEmailAsync(model.Email);
 
             // validate
             if (user == null || !BCryptNet.Verify(model.Password, user.PasswordHash))
@@ -38,7 +38,7 @@ namespace FND.Services.Impl
             {
                 Id = user.Id,
                 Name = user.Name,
-                Username = user.Username
+                Email = user.Email
 
             };
             response.JwtToken = _jwtUtils.GenerateToken(user);
@@ -47,7 +47,7 @@ namespace FND.Services.Impl
 
         public IEnumerable<User> GetAll()
         {
-            return (IEnumerable<User>)_context.GetUsers();
+            return _context.GetUsers();
         }
 
         public async Task<User> GetByIdAsync(string id)
@@ -58,17 +58,15 @@ namespace FND.Services.Impl
         public async Task<User> RegisterAsync(RegisterRequest model)
         {
             // validate
-            if (await _context.GetByUsernameAsync(model.Username) != null)
-                throw new Exception("Username '" + model.Username + "' is already taken");
+            if (await _context.GetByEmailAsync(model.Email) != null)
+                throw new Exception("Email '" + model.Email + "' is already Exist");
 
             // map model to new user object
             var user = new User
             {
-                Username = model.Username,
                 Name = model.Name,
                 Email = model.Email,
-                Phone = model.Phone,
-                ReferedBy = model.ReferedBy
+                Phone = model.Phone
 
             };
 

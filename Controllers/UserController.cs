@@ -28,10 +28,8 @@ namespace FND.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> RegisterAsync(RegisterRequest model, [FromQuery] string ReferedBy)
+        public async Task<IActionResult> RegisterAsync(RegisterRequest model)
         {
-            if (!string.IsNullOrEmpty(ReferedBy))
-                model.ReferedBy = ReferedBy;
             var response = await _userService.RegisterAsync(model);
             return Ok(CreateSuccessResponse(response));
         }

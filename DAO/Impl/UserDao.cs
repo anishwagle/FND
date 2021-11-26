@@ -24,9 +24,9 @@ namespace FND.DAO.Impl
             var dataResults = _users.Find(x => true).ToList();
             return dataResults;
         }
-        public async Task<User> GetByUsernameAsync(string username)
+        public async Task<User> GetByEmailAsync(string email)
         {
-            return await _users.FindAsync(x => x.Username == username).Result.FirstOrDefaultAsync();
+            return await _users.FindAsync(x => x.Email == email).Result.FirstOrDefaultAsync();
         }
         public async Task<User> GetByIdAsync(string Id)
         {

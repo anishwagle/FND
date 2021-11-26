@@ -11,11 +11,8 @@ namespace FND.DTO
         [Required]
         public string Phone { get; set; }
 
-        [Required]
-        public string Username { get; set; }
 
         [Required]
         public string Password { get; set; }
-        public string ReferedBy { get; set; }
     }
 }

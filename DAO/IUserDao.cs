@@ -8,7 +8,7 @@ namespace FND.DAO
     public interface IUserDao
     {
         Task<User> AddAsync(User user);
-        Task<User> GetByUsernameAsync(string username);
+        Task<User> GetByEmailAsync(string email);
         Task<User> GetByIdAsync(string Id);
         IEnumerable<User> GetUsers();
         string Delete(string id);
