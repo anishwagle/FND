@@ -42,6 +42,8 @@ namespace FND
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddTransient<IJwtUtils, JwtUtils>()
+            .AddTransient<ISymptomMonitoringRecordService, SymptomMonitoringRecordService>()
+            .AddTransient<ISymptomMonitoringRecordDao, SymptomMonitoringRecordDao>()
             .AddTransient<IUserService, UserService>()
             .AddTransient<IUserDao, UserDao>()
             ;
@@ -61,9 +63,9 @@ namespace FND
 
             app.UseRouting();
             app.UseCors(x => x
-                            .AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader());
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
