@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using FND.DTO;
 using FND.Models;
 using FND.Services;
-using Microsoft.AspNetCore.Authorization;
+using FND.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FND.Controllers
@@ -16,7 +16,7 @@ namespace FND.Controllers
         {
             _symptomMonitoringRecordService = symptomMonitoringRecordService;
         }
-
+        [Authorize]
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> AddAsync(SymptomMonitoringRecord model)
@@ -24,7 +24,7 @@ namespace FND.Controllers
             var response = await _symptomMonitoringRecordService.AddAsync(model);
             return Ok(CreateSuccessResponse(response));
         }
-
+        [Authorize]
         [HttpPost]
         [Route("get-all/{userId}")]
         public async Task<IActionResult> GetAsync([FromRoute] string userId)
@@ -32,7 +32,7 @@ namespace FND.Controllers
             var response = await _symptomMonitoringRecordService.GetSymptomMonitoringRecordsAsync(userId);
             return Ok(CreateSuccessResponse(response));
         }
-
+        [Authorize]
         [HttpPost]
         [Route("get-by-id/{userId}/{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] string userId, [FromRoute] string Id)
@@ -40,7 +40,7 @@ namespace FND.Controllers
             var response = await _symptomMonitoringRecordService.GetByIdAsync(userId, Id);
             return Ok(CreateSuccessResponse(response));
         }
-
+        [Authorize]
         [HttpPost]
         [Route("delete/{id}")]
         public IActionResult Delete([FromRoute] string Id)
