@@ -30,7 +30,6 @@ namespace FND.Models
         public string NeededAfterSeizure { get; set; }
         public string CallAmbulance { get; set; }
         public string PatientName { get; set; }
-        public string EmergencyContact { get; set; }
         public string RelationshipToPatient { get; set; }
     }
     public class Contact{
