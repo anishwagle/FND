@@ -46,6 +46,8 @@ namespace FND
             .AddTransient<ISymptomMonitoringRecordDao, SymptomMonitoringRecordDao>()
             .AddTransient<ISeizureMonitoringRecordService, SeizureMonitoringRecordService>()
             .AddTransient<ISeizureMonitoringRecordDao, SeizureMonitoringRecordDao>()
+            .AddTransient<IDailyLogService, DailyLogService>()
+            .AddTransient<IDailyLogDao, DailyLogDao>()
             .AddTransient<IUserService, UserService>()
             .AddTransient<IUserDao, UserDao>()
             ;
