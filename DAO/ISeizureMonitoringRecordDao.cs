@@ -9,7 +9,7 @@ namespace FND.DAO
     {
         Task<SeizureMonitoringRecord> AddAsync(SeizureMonitoringRecord seizureMonitoringRecord);
         Task<SeizureMonitoringRecord> GetByIdAsync(string userId, string Id);
-        Task<IEnumerable<SeizureMonitoringRecord>> GetSeizureMonitoringRecordsAsync(string Id);
+        Task<IEnumerable<SeizureMonitoringRecord>> GetSeizureMonitoringRecordsAsync(string userId);
         string Delete(string id);
 
     }

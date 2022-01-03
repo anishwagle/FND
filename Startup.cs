@@ -42,6 +42,8 @@ namespace FND
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddTransient<IJwtUtils, JwtUtils>()
+            .AddTransient<IPostService, PostService>()
+            .AddTransient<IPostDao, PostDao>()
             .AddTransient<ISymptomMonitoringRecordService, SymptomMonitoringRecordService>()
             .AddTransient<ISymptomMonitoringRecordDao, SymptomMonitoringRecordDao>()
             .AddTransient<ISeizureMonitoringRecordService, SeizureMonitoringRecordService>()
