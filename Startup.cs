@@ -42,6 +42,8 @@ namespace FND
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddTransient<IJwtUtils, JwtUtils>()
+            .AddTransient<IVideoService, VideoService>()
+            .AddTransient<IVideoDao, VideoDao>()
             .AddTransient<IPostService, PostService>()
             .AddTransient<IPostDao, PostDao>()
             .AddTransient<IFAQService, FAQService>()
