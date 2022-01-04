@@ -44,6 +44,8 @@ namespace FND
             services.AddTransient<IJwtUtils, JwtUtils>()
             .AddTransient<IVideoService, VideoService>()
             .AddTransient<IVideoDao, VideoDao>()
+            .AddTransient<IStoryService, StoryService>()
+            .AddTransient<IStoryDao, StoryDao>()
             .AddTransient<IPostService, PostService>()
             .AddTransient<IPostDao, PostDao>()
             .AddTransient<IFAQService, FAQService>()
