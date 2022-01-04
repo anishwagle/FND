@@ -44,6 +44,8 @@ namespace FND
             services.AddTransient<IJwtUtils, JwtUtils>()
             .AddTransient<IPostService, PostService>()
             .AddTransient<IPostDao, PostDao>()
+            .AddTransient<IFAQService, FAQService>()
+            .AddTransient<IFAQDao, FAQDao>()
             .AddTransient<ISymptomMonitoringRecordService, SymptomMonitoringRecordService>()
             .AddTransient<ISymptomMonitoringRecordDao, SymptomMonitoringRecordDao>()
             .AddTransient<ISeizureMonitoringRecordService, SeizureMonitoringRecordService>()
