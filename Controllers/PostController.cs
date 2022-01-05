@@ -4,6 +4,8 @@ using FND.Models;
 using FND.Services;
 using FND.Middlewares;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+ using System;
 
 namespace FND.Controllers
 {
@@ -21,10 +23,19 @@ namespace FND.Controllers
         [Route("add")]
         public async Task<IActionResult> AddAsync(Post model)
         {
-            var file = Request.Form.Files[0];
-            byte[] binaryContent = File.ReadAllBytes(file
-            );
-            model.Image=binaryContent;
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    string s = Convert.ToBase64String(fileBytes);
+                    model.Image = fileBytes;
+                }
+
+            }
+
             var response = await _postService.AddAsync(model);
             return Ok(CreateSuccessResponse(response));
         }

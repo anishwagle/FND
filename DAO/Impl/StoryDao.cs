@@ -22,15 +22,17 @@ namespace FND.DAO.Impl
         public async Task<IEnumerable<Story>> GetStorysAsync()
         {
             var dataResults =await _storys.FindAsync(x => true);
-            return dataResults;
+            return dataResults.ToList();
         }
-        public async Task<Story> GetByUserAsync(string userId)
+        public async Task<IEnumerable<Story>> GetByUserAsync(string userId)
         {
-            return await _storys.FindAsync(x => x.User.Id == userId);
+            var data = await _storys.FindAsync(x => x.User.Id == userId);
+            return data.ToList();
         }
         public async Task<Story> GetByIdAsync(string Id)
         {
-            return await _storys.FindAsync(x => x.Id == Id).Result.FirstOrDefault();
+            var data = await _storys.FindAsync(x => x.Id == Id);
+            return data.FirstOrDefault();
         }
 
 

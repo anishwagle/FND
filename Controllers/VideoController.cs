@@ -17,19 +17,15 @@ namespace FND.Controllers
             _videoService = videoService;
         }
         [Authorize]
-        [HttpVideo]
+        [HttpPost]
         [Route("add")]
         public async Task<IActionResult> AddAsync(Video model)
         {
-            var file = Request.Form.Files[0];
-            byte[] binaryContent = File.ReadAllBytes(file
-            );
-            model.Image=binaryContent;
             var response = await _videoService.AddAsync(model);
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpVideo]
+        [HttpPost]
         [Route("get-all")]
         public async Task<IActionResult> GetAsync()
         {
@@ -37,7 +33,7 @@ namespace FND.Controllers
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpVideo]
+        [HttpPost]
         [Route("get-by-id/{id}")]
         public async Task<IActionResult> GetAsync( [FromRoute] string Id)
         {
@@ -45,7 +41,7 @@ namespace FND.Controllers
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpVideo]
+        [HttpPost]
         [Route("get-by-user/{userId}")]
         public async Task<IActionResult> GetByUserAsync( [FromRoute] string userId)
         {
@@ -53,7 +49,7 @@ namespace FND.Controllers
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpVideo]
+        [HttpPost]
         [Route("delete/{id}")]
         public IActionResult Delete([FromRoute] string Id)
         {

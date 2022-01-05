@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FND.Models
 {
-    public class Post
+    public class Story
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

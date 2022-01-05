@@ -21,7 +21,8 @@ namespace FND.DAO.Impl
         }
         public async Task<IEnumerable<FAQ>> GetFAQsAsync()
         {
-            var dataResults = await _FAQs.FindAsync();
+
+            var dataResults = await _FAQs.FindAsync(x=>true);
             return dataResults.ToList();
         }
 

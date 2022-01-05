@@ -8,7 +8,7 @@ namespace FND.DAO
     public interface IVideoDao
     {
         Task<Video> AddAsync(Video video);
-        Task<Video> GetByUserAsync(string userId);
+        Task<IEnumerable<Video>> GetByUserAsync(string userId);
         Task<Video> GetByIdAsync(string Id);
         Task<IEnumerable<Video>> GetVideosAsync();
         string Delete(string id);

@@ -28,7 +28,7 @@ namespace FND.Services.Impl
         {
             return await _context.GetByIdAsync(id);
         }
-public async Task<Video> GetByUserAsync( string userId)
+public async Task<IEnumerable<Video>> GetByUserAsync( string userId)
         {
             return await _context.GetByUserAsync(userId);
         }

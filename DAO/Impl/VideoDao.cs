@@ -22,15 +22,17 @@ namespace FND.DAO.Impl
         public async Task<IEnumerable<Video>> GetVideosAsync()
         {
             var dataResults =await _videos.FindAsync(x => true);
-            return dataResults;
+            return dataResults.ToList();
         }
-        public async Task<Video> GetByUserAsync(string userId)
+        public async Task<IEnumerable<Video>> GetByUserAsync(string userId)
         {
-            return await _videos.FindAsync(x => x.User.Id == userId);
+             var dataResults = await _videos.FindAsync(x => x.User.Id == userId);
+             return dataResults.ToList();
         }
         public async Task<Video> GetByIdAsync(string Id)
         {
-            return await _videos.FindAsync(x => x.Id == Id).Result.FirstOrDefault();
+           var dataResults = await _videos.FindAsync(x => x.Id == Id);
+           return dataResults.FirstOrDefault();
         }
 
 

@@ -4,7 +4,8 @@ using FND.Models;
 using FND.Services;
 using FND.Middlewares;
 using Microsoft.AspNetCore.Mvc;
-
+using System.IO;
+ using System;
 namespace FND.Controllers
 {
     [ApiController]
@@ -17,19 +18,28 @@ namespace FND.Controllers
             _storyService = storyService;
         }
         [Authorize]
-        [HttpStory]
+        [HttpPost]
         [Route("add")]
         public async Task<IActionResult> AddAsync(Story model)
         {
-            var file = Request.Form.Files[0];
-            byte[] binaryContent = File.ReadAllBytes(file
-            );
-            model.Image=binaryContent;
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    string s = Convert.ToBase64String(fileBytes);
+                    model.Image = fileBytes;
+                }
+
+            }
+
             var response = await _storyService.AddAsync(model);
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpStory]
+        [HttpPost]
         [Route("get-all")]
         public async Task<IActionResult> GetAsync()
         {
@@ -37,7 +47,7 @@ namespace FND.Controllers
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpStory]
+        [HttpPost]
         [Route("get-by-id/{id}")]
         public async Task<IActionResult> GetAsync( [FromRoute] string Id)
         {
@@ -45,7 +55,7 @@ namespace FND.Controllers
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpStory]
+        [HttpPost]
         [Route("get-by-user/{userId}")]
         public async Task<IActionResult> GetByUserAsync( [FromRoute] string userId)
         {
@@ -53,7 +63,7 @@ namespace FND.Controllers
             return Ok(CreateSuccessResponse(response));
         }
         [Authorize]
-        [HttpStory]
+        [HttpPost]
         [Route("delete/{id}")]
         public IActionResult Delete([FromRoute] string Id)
         {

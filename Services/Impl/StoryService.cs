@@ -28,7 +28,7 @@ namespace FND.Services.Impl
         {
             return await _context.GetByIdAsync(id);
         }
-public async Task<Story> GetByUserAsync( string userId)
+public async Task<IEnumerable<Story>> GetByUserAsync( string userId)
         {
             return await _context.GetByUserAsync(userId);
         }

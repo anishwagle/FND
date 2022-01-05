@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FND.Models
 {
-    public class FAQ
+    public class Video
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
