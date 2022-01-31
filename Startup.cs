@@ -58,6 +58,12 @@ namespace FND
             .AddTransient<IDailyLogDao, DailyLogDao>()
             .AddTransient<IUserService, UserService>()
             .AddTransient<IUserDao, UserDao>()
+            .AddTransient<IUserInfoService, UserInfoService>()
+            .AddTransient<IUserInfoDao, UserInfoDao>()
+            .AddTransient<ISMRFormService, SMRFormService>()
+            .AddTransient<ISMRFormDao, SMRFormDao>()
+            .AddTransient<ISMPFormService, SMPFormService>()
+            .AddTransient<ISMPFormDao, SMPFormDao>()
             ;
         }
 
