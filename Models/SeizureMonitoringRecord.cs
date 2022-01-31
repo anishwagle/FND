@@ -32,12 +32,5 @@ namespace FND.Models
         public string PatientName { get; set; }
         public string RelationshipToPatient { get; set; }
     }
-    public class Contact{
-        public string Name { get; set; }
-        public string RelationShip{ get; set; }
-        public string Phone { get; set; }
-        public string HomePhone { get; set; }
-        public string Address { get; set; }
-        public string Profession { get; set; }
-    }
+    
 }

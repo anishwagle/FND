@@ -65,8 +65,7 @@ namespace FND.Services.Impl
             var user = new User
             {
                 Name = model.Name,
-                Email = model.Email,
-                Phone = model.Phone
+                Email = model.Email
 
             };
 
