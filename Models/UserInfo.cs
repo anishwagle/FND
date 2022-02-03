@@ -12,7 +12,7 @@ namespace FND.Models
         public string Id { get; set; }
         public User User { get; set; }
         public string Phone { get; set; }
-
+        public DateTime DOB { get; set; }
        
         public string Gender { get; set; }
         public Contact EmergencyEontact { get; set; }
