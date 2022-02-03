@@ -32,6 +32,11 @@ namespace FND.DAO.Impl
             await _context.InsertOneAsync(data);
             return data;
         }
+        public async Task<UserInfo> UpdateAsync(UserInfo data)
+        {
+            await _context.ReplaceOneAsync(x=>x.Id==data.Id,data);
+            return data;
+        }
 
         public string Delete(string id)
         {

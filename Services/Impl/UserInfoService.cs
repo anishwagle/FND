@@ -34,6 +34,14 @@ namespace FND.Services.Impl
             return response;
         }
 
+        public async Task<UserInfo> UpdateAsync(UserInfo model)
+        {
+
+            UserInfo response = await _context.UpdateAsync(model);
+
+            return response;
+        }
+
         public void Delete(string id)
         {
             _context.Delete(id);

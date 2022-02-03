@@ -9,6 +9,7 @@ namespace FND.DAO
     {
         Task<UserInfo> AddAsync(UserInfo data);
         Task<UserInfo> GetByIdAsync(string userId);
+        Task<UserInfo> UpdateAsync(UserInfo data);
         string Delete(string id);
 
     }

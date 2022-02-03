@@ -24,6 +24,15 @@ namespace FND.Controllers
             var response = await context.AddAsync(model);
             return Ok(CreateSuccessResponse(response));
         }
+
+        [Authorize]
+        [HttpPost]
+        [Route("update")]
+        public async Task<IActionResult> UpdateAsync(UserInfo model)
+        {
+            var response = await context.UpdateAsync(model);
+            return Ok(CreateSuccessResponse(response));
+        }
     
         [Authorize]
         [HttpPost]
