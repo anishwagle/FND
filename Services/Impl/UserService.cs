@@ -7,11 +7,13 @@ using FND.Middlewares;
 using FND.DAO;
 using FND.DTO;
 using FND.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 namespace FND.Services.Impl
 {
 
-    public class UserService : IUserService
+    public class UserService :ControllerBase, IUserService
     {
         private readonly IJwtUtils _jwtUtils;
         // private readonly IMapper _mapper;
@@ -25,13 +27,18 @@ namespace FND.Services.Impl
             _jwtUtils = jwtUtils2;
         }
 
-        public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model)
+        public async Task<IActionResult> AuthenticateAsync(AuthenticateRequest model)
         {
             var user = await _context.GetByEmailAsync(model.Email);
+            var apiResponse= new ServiceResult<AuthenticateResponse>();
 
             // validate
-            if (user == null || !BCryptNet.Verify(model.Password, user.PasswordHash))
-                throw new Exception("Username or password is incorrect");
+            if (user == null || !BCryptNet.Verify(model.Password, user.PasswordHash)){
+                apiResponse.IsError=true;
+                apiResponse.Message="Username or Password Incorrect";
+                apiResponse.Result=null;
+                return Ok(apiResponse);
+            }
 
             // authentication successful
             var response = new AuthenticateResponse
@@ -42,7 +49,11 @@ namespace FND.Services.Impl
 
             };
             response.JwtToken = _jwtUtils.GenerateToken(user);
-            return response;
+
+            apiResponse.IsError=false;
+            apiResponse.Message="Authentication Success";
+            apiResponse.Result=response;
+            return Ok(apiResponse);
         }
 
         public IEnumerable<User> GetAll()
@@ -55,11 +66,16 @@ namespace FND.Services.Impl
             return await _context.GetByIdAsync(id);
         }
 
-        public async Task<User> RegisterAsync(RegisterRequest model)
+        public async Task<IActionResult> RegisterAsync(RegisterRequest model)
         {
+            var apiResponse= new ServiceResult<User>();
             // validate
-            if (await _context.GetByEmailAsync(model.Email) != null)
-                throw new Exception("Email '" + model.Email + "' is already Exist");
+            if (await _context.GetByEmailAsync(model.Email) != null){
+                apiResponse.IsError=true;
+                apiResponse.Message="Email '" + model.Email + "' is already Exist";
+                apiResponse.Result=null;
+                return Ok(apiResponse);
+            }
 
             // map model to new user object
             var user = new User
@@ -74,8 +90,11 @@ namespace FND.Services.Impl
 
             // save user
             User response = await _context.AddAsync(user);
+            apiResponse.IsError=false;
+            apiResponse.Message="Authentication Success";
+            apiResponse.Result=response;
+            return Ok(apiResponse);
 
-            return response;
         }
 
         // public void Update(int id, UpdateRequest model)

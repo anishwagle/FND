@@ -22,7 +22,7 @@ namespace FND.Controllers
         public async Task<IActionResult> AuthenticateAsync(AuthenticateRequest model)
         {
             var response = await _userService.AuthenticateAsync(model);
-            return Ok(CreateSuccessResponse(response));
+            return Ok(response);
         }
 
         [AllowAnonymous]
@@ -31,7 +31,7 @@ namespace FND.Controllers
         public async Task<IActionResult> RegisterAsync(RegisterRequest model)
         {
             var response = await _userService.RegisterAsync(model);
-            return Ok(CreateSuccessResponse(response));
+            return Ok(response);
         }
     }
 }
