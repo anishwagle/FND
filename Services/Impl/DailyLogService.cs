@@ -30,40 +30,10 @@ namespace FND.Services.Impl
             return await _context.GetByIdAsync(userId, id);
         }
 
-        public async Task<DailyLog> AddAsync(DailyLogRequest model)
+        public async Task<DailyLog> AddAsync(DailyLog model)
         {
-            var data = await _context.GetByTypeAsync(model.User.Id, model.Type);
-            if (data == null)
-            {
-                data = new DailyLog
-                {
-                    Type = model.Type,
-                    User = model.User,
-                    Logs = new List<Log>()
-                };
-                var log = new Log
-                {
-                    Time = model.Log.Time,
-                    Rate = model.Log.Rate,
-                    Field = model.Log.Field
-                };
-
-                data.Logs.Add(log);
-
-                return await _context.AddAsync(data);
-            }
-            else
-            {
-                var log = new Log
-                {
-                    Time = model.Log.Time,
-                    Rate = model.Log.Rate,
-                    Field = model.Log.Field
-                };
-
-                data.Logs.Add(log);
-                return await _context.UpdateAsync(data);
-            }
+            DailyLog response = await _context.AddAsync(model);
+            return response;
         }
 
         public void Delete(string id)

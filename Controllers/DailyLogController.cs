@@ -19,7 +19,7 @@ namespace FND.Controllers
         [Authorize]
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> AddAsync(DailyLogRequest model)
+        public async Task<IActionResult> AddAsync(DailyLog model)
         {
             var response = await _dailyLogService.AddAsync(model);
             return Ok(CreateSuccessResponse(response));

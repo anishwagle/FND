@@ -7,7 +7,7 @@ namespace FND.Services
 {
     public interface IDailyLogService
     {
-        Task<DailyLog> AddAsync(DailyLogRequest dailyLog);
+        Task<DailyLog> AddAsync(DailyLog dailyLog);
         Task<DailyLog> GetByIdAsync(string userId, string Id);
         Task<IEnumerable<DailyLog>> GetDailyLogsAsync(string Id);
         void Delete(string id);

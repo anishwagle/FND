@@ -12,7 +12,7 @@ namespace FND.Models
         public User User { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime DateOfPlan { get; set; }
-        public bool OnMedication { get; set; }
+        public string OnMedication { get; set; }
         public string Medication { get; set; }
         public List<string> MedicalConditions { get; set; }
         public string MedicalHistory { get; set; }
