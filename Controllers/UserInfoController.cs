@@ -18,21 +18,14 @@ namespace FND.Controllers
         }
         [Authorize]
         [HttpPost]
-        [Route("add")]
+        [Route("save")]
         public async Task<IActionResult> AddAsync(UserInfo model)
         {
-            var response = await context.AddAsync(model);
+            var response = await context.SaveAsync(model);
             return Ok(CreateSuccessResponse(response));
         }
 
-        [Authorize]
-        [HttpPost]
-        [Route("update")]
-        public async Task<IActionResult> UpdateAsync(UserInfo model)
-        {
-            var response = await context.UpdateAsync(model);
-            return Ok(CreateSuccessResponse(response));
-        }
+
     
         [Authorize]
         [HttpPost]

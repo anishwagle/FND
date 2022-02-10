@@ -26,21 +26,17 @@ namespace FND.Services.Impl
             return await _context.GetByIdAsync(userId);
         }
 
-        public async Task<UserInfo> AddAsync(UserInfo model)
+        public async Task<UserInfo> SaveAsync(UserInfo model)
         {
-
-            UserInfo response = await _context.AddAsync(model);
+            var response = new UserInfo();
+            if(String.IsNullOrEmpty( model.Id))
+                 response = await _context.AddAsync(model);
+            else
+                response = await _context.UpdateAsync(model);
 
             return response;
         }
 
-        public async Task<UserInfo> UpdateAsync(UserInfo model)
-        {
-
-            UserInfo response = await _context.UpdateAsync(model);
-
-            return response;
-        }
 
         public void Delete(string id)
         {

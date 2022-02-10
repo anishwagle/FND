@@ -7,8 +7,7 @@ namespace FND.Services
 {
     public interface IUserInfoService
     {
-        Task<UserInfo> AddAsync(UserInfo data);
-        Task<UserInfo> UpdateAsync(UserInfo data);
+        Task<UserInfo> SaveAsync(UserInfo data);
         Task<UserInfo> GetByIdAsync(string userId);
         void Delete(string id);
 
