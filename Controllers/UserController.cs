@@ -33,5 +33,39 @@ namespace FND.Controllers
             var response = await _userService.RegisterAsync(model);
             return Ok(response);
         }
+
+        [HttpPost]  
+        [Route("forgotpassword")]  
+        public async Task<IActionResult> GenerateResetToken([FromQuery] string userEmail)  
+        {  
+
+
+            var response=await _userService.GeneratePasswordResetToken(userEmail);
+            return response;
+       
+        }  
+
+        [HttpPost]  
+        [Route("verifyotp")]  
+        public async Task<IActionResult> VerifyPasswordResetToken([FromQuery] string userEmail,[FromQuery] string token )  
+        {  
+
+
+            var response=await _userService.VerifyPasswordResetToken(userEmail,token);
+            return response;
+       
+        }
+
+        
+
+        [HttpPost]  
+        [Route("resetpass")]  
+        public async Task<IActionResult> ResetPassword([FromBody] PasswordResetRequest model)  
+        {  
+
+            var response=await _userService.ResetPassword(model);
+            return response;
+       
+         }  
     }
 }

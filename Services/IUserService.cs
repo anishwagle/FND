@@ -12,6 +12,9 @@ namespace FND.Services
         IEnumerable<User> GetAll();
         Task<User> GetByIdAsync(string id);
         Task<IActionResult> RegisterAsync(RegisterRequest model);
+        Task<IActionResult> GeneratePasswordResetToken(string email);
+        Task<IActionResult> VerifyPasswordResetToken(string userEmail,string token);
+        Task<IActionResult> ResetPassword(PasswordResetRequest resetReq);
         void Delete(string id);
 
     }

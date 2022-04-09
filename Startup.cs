@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using FND.Helpers;
 
 namespace FND
 {
@@ -40,6 +41,7 @@ namespace FND
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddTransient<IJwtUtils, JwtUtils>()
             .AddTransient<IVideoService, VideoService>()
@@ -64,6 +66,7 @@ namespace FND
             .AddTransient<ISMRFormDao, SMRFormDao>()
             .AddTransient<ISMPFormService, SMPFormService>()
             .AddTransient<ISMPFormDao, SMPFormDao>()
+            .AddTransient<IMailService, MailService>();
             ;
         }
 

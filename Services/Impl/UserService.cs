@@ -16,15 +16,17 @@ namespace FND.Services.Impl
     public class UserService :ControllerBase, IUserService
     {
         private readonly IJwtUtils _jwtUtils;
+        private readonly IMailService _mailService;
         // private readonly IMapper _mapper;
         private readonly IUserDao _context;
         public UserService(
             IUserDao userDao,
-            IJwtUtils jwtUtils, IJwtUtils jwtUtils2)
+            IJwtUtils jwtUtils, IJwtUtils jwtUtils2,IMailService mailService)
         {
             _context = userDao;
             _jwtUtils = jwtUtils;
             _jwtUtils = jwtUtils2;
+            _mailService = mailService;
         }
 
         public async Task<IActionResult> AuthenticateAsync(AuthenticateRequest model)
@@ -97,23 +99,102 @@ namespace FND.Services.Impl
 
         }
 
-        // public void Update(int id, UpdateRequest model)
-        // {
-        //     var user = getUser(id);
+        public async Task<IActionResult> GeneratePasswordResetToken(string email){
 
-        //     // validate
-        //     if (model.Username != user.Username && _context.Users.Any(x => x.Username == model.Username))
-        //         throw new AppException("Username '" + model.Username + "' is already taken");
+             var apiResponse= new ServiceResult<User>();
 
-        //     // hash password if it was entered
-        //     if (!string.IsNullOrEmpty(model.Password))
-        //         user.PasswordHash = BCryptNet.HashPassword(model.Password);
+             var user = await _context.GetByEmailAsync(email);
+           
+             
+              if(user==null){
+                apiResponse.IsError=true;
+                apiResponse.Message="No user found with given email address";
+                apiResponse.Result=null;
+                return Ok(apiResponse);
+                }
+               
+                    Random random = new Random();
+                    int otp = random.Next(100000, 1000000);
+                    DateTime validTill= DateTime.UtcNow.AddMinutes(10);
 
-        //     // copy model to user and save
-        //     _mapper.Map(model, user);
-        //     _context.Users.Update(user);
-        //     _context.SaveChanges();
-        // }
+                    var passwordResetToken= new UserPasswordResetToken();
+                    passwordResetToken.Token=otp.ToString();
+                    passwordResetToken.ValidTill=validTill;
+
+                    user.PasswordResetToken= passwordResetToken;
+                try
+                {
+                    await _context.UpdateAsync(user);
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+
+                try{
+                    await _mailService.SendEmailAsync(
+                    email,
+                    "FND password reset",
+                    $"OTP for your FND Austrilia application password reset is <b>{otp}</b> <br/> ");
+                
+                }catch(Exception e){
+                    throw e;
+                }
+                
+            
+            apiResponse.IsError=false;
+            apiResponse.Message="Password reset token has been sent to the user's email Id";
+            return Ok(apiResponse);
+        }
+
+         public async Task<IActionResult> VerifyPasswordResetToken(string userEmail,string token){
+
+            var apiResponse= new ServiceResult<User>();
+
+             var user = await _context.GetByEmailAsync(userEmail);
+            if(user.PasswordResetToken.Token==token){
+                if(DateTime.UtcNow<user.PasswordResetToken.ValidTill){
+                    apiResponse.IsError=false;
+                    apiResponse.Message="Successfully verified password reset token";
+                }
+                else{
+                    apiResponse.IsError=true;
+                    apiResponse.Message="ERROR! Token Has Expired";
+                }
+            }
+            else{
+                apiResponse.IsError=true;
+                apiResponse.Message="VERIFICATION FAILED. INCORRECT TOKEN";
+            }
+            
+            return Ok(apiResponse);
+        }
+
+        public async Task<IActionResult> ResetPassword(PasswordResetRequest resetReq){
+
+            var apiResponse= new ServiceResult<User>();
+
+             var user = await _context.GetByEmailAsync(resetReq.EmailId);
+            if(user.PasswordResetToken.Token==resetReq.Token && DateTime.UtcNow<user.PasswordResetToken.ValidTill){//
+                user.PasswordHash = BCryptNet.HashPassword(resetReq.NewPassword);
+                user.PasswordResetToken=null;
+                try{
+                   await _context.UpdateAsync(user);
+                }
+                catch(Exception e){
+                    throw e;
+                }
+                apiResponse.IsError=false;
+                apiResponse.Message="Password Reset Successful";
+            }
+            else{
+                apiResponse.IsError=true;
+                apiResponse.Message="RESET FAILED!! Invalid or Expired Token";
+            }
+            
+            return Ok(apiResponse);
+        }
+
 
         public void Delete(string id)
         {

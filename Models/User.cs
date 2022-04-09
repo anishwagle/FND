@@ -13,7 +13,12 @@ namespace FND.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public UserPasswordResetToken PasswordResetToken { get; set; }
         
 
+    }
+    public class UserPasswordResetToken{
+        public string Token { get; set; }
+        public DateTime ValidTill { get; set; }
     }
 }

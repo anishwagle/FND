@@ -40,6 +40,13 @@ namespace FND.DAO.Impl
             return user;
         }
 
+        public async Task<User> UpdateAsync(User user)
+        {
+            var filter = Builders<User>.Filter.Eq(doc => doc.Id, user.Id);
+            await _users.FindOneAndReplaceAsync(filter,user);
+            return user;
+        }
+
         public string Delete(string id)
         {
             _users.FindOneAndDelete(x => x.Id == id);
